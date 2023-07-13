@@ -44,8 +44,7 @@
 	
 		console.clear();
 		
-
-
+{
 
 
 
@@ -165,6 +164,96 @@ var standardAiOff = 17;
 var bg;
 var gameSet;
 function effect(){}
+function worty(x,y,size,angle,emotion){
+        pushMatrix();
+        translate(x,y);
+        scale(size/3);
+        rotate(angle);
+        noStroke();
+        fill(100,100,100,150);
+        ellipse(0,250-200,195,20);
+        fill(21, 207, 0);
+        ellipse(26.7,200-200,90,90);
+        arc(197-170,246-200,200,182,-180,-90);
+        fill(0, 0, 0);
+        ellipse(179-170,169-200,10,10);
+        ellipse(229-170,170-200,10,10);
+        fill(21,207,0);
+        stroke(0, 0, 0);
+        strokeWeight(1);
+        arc(223-170,242-200,70,15,-60,161);
+        fill(157, 255, 0);
+        noStroke();
+        ellipse(204-170,210-200,84,70);
+        rect(162-170,205-200,84,41,5);
+        fill(21,207,0);
+        strokeWeight(1);
+        stroke(0,0,0);
+        arc(118-170,229-200,70,50,-80,14);
+        arc(140-170,244-200,70,20,-110,185);
+        strokeWeight(10);
+        if(emotion === 0){
+            line(170-170,155-200,185-170,155-200);
+            line(225-170,155-200,235-170,155-200);
+            strokeWeight(1);
+            stroke(0, 0, 0);
+            arc(179-170,167-200,15,10,-180,0);
+            arc(229-170,168-200,15,10,-180,0);
+            strokeWeight(1);
+            noFill();
+            arc(204-170,186-200,60,20,-180,0);
+        }
+        if(emotion === 1){
+            line(170-170,155-200,185-165,155-198);
+            line(225-175,155-198,235-170,155-200);
+            strokeWeight(1);
+            stroke(0, 0, 0);
+            arc(179-170,167-200,15,10,-180,20);
+            arc(229-170,168-200,15,10,-200,0);
+            strokeWeight(1);
+            noFill();
+            arc(204-168,186-196,60,30,-180,0);
+        }
+        if(emotion === 2){
+            strokeWeight(10);
+            line(170-170,155-200,185-170,155-210);
+            line(225-170,155-210,235-170,155-200);
+            strokeWeight(1);
+            noFill();
+            arc(204-170,186-200,60,20,-180,0);
+        }
+        if(emotion === 3){
+            strokeWeight(10);
+            line(170-170,155-200,185-170,155-200);
+            line(225-170,155-200,235-170,155-200);
+            strokeWeight(1);
+            stroke(0, 0, 0);
+            arc(179-170,167-198,15,10,-180,0);
+            arc(229-170,168-198,15,10,-180,0);
+            strokeWeight(1);
+            fill(242, 242, 242);
+            arc(205-171,186-211,64,36,0,180);
+            line(62,-17,6,-17);
+        }
+        if(emotion === 5){
+            strokeWeight(10);
+            line(170-170,152,185-169,159);
+            line(225-173,159,235-170,152);
+            strokeWeight(1);
+            stroke(0, 0, 0);
+            arc(179-170,167-198,15,10,-180,0);
+            arc(229-170,168-198,15,10,-180,0);
+            strokeWeight(1);
+            fill(242, 242, 242);
+            arc(205-171,186-211,64,36,0,180);
+            line(62,-17,6,-17);
+                   
+        }
+        
+        popMatrix();
+ 
+ }
+function doPlayerGraphics(){}
 function cycle(n,e,p){
 
 if(round(((frameCount+p+e.rand)/n)*n)/n === round((round((frameCount+p+e.rand)/n))*n)/n){
@@ -453,46 +542,86 @@ var people = [
     fill(157, 255, 0);
     arc(10,0,10,23,-90,90);
     fill(255, 255, 255);
-    arc(7,0,10,15,-90,90);
-    strokeWeight(4);
-    line(1+e.curBrows[0][0].x,-8+e.curBrows[0][0].y,1+e.curBrows[0][1].x,-4+e.curBrows[0][1].y);
-    line(1+e.curBrows[1][0].x,8+e.curBrows[1][0].y,1+e.curBrows[1][1].x,4+e.curBrows[1][1].y);
+    switch(e.browState){
+    case 'angry attack':
+    noFill();
+    arc(12,0,10,15,120,240);
     fill(0,0,0);
     noStroke();
     arc(4,-6,4,4,-90,90);
     arc(4,6,4,4,-90,90);
-    if(cycle(500,e,0)||cycle(500,e,16)){
+    break;
+    case 'sad':
+    noFill();
+    arc(12,0,10,15,120,240);
+    fill(0,0,0);
+    noStroke();
+    arc(4,-6,4,4,0,360);
+    arc(4,6,4,4,0,360);
+    break;
+    default:
+    arc(7,0,10,15,-90,90);
+    fill(0,0,0);
+    noStroke();
+    arc(4,-6,4,4,-90,90);
+    arc(4,6,4,4,-90,90);
+    break;
+    }
+    stroke(0,0,0);
+    strokeWeight(4);
+    line(1+e.curBrows[0][0].x,-8+e.curBrows[0][0].y,1+e.curBrows[0][1].x,-4+e.curBrows[0][1].y);
+    line(1+e.curBrows[1][0].x,8+e.curBrows[1][0].y,1+e.curBrows[1][1].x,4+e.curBrows[1][1].y);
+    
+    if(e.trueAttacking && e.use.anim === 'sweep' && e.use.sweep > 0){
+    e.brows[0] = [{x:0,y:0},{x:2,y:0}];
+    e.brows[1] = [{x:0,y:0},{x:2,y:0}];
+    e.browState = 'angry attack';
+    }else if(e.browState === 'sad'){
+    e.brows[0] = [{x:0,y:0},{x:-2,y:0}];
+    e.brows[1] = [{x:0,y:0},{x:-2,y:0}];
+    if(cycle(120,e,0)){
+    e.browState = 'default';
+    }
+    }else if(cycle(500,e,0)||cycle(500,e,16)){
     e.brows[0] = [{x:-4,y:0},{x:-4,y:0}];
     e.brows[1] = [{x:-4,y:0},{x:-4,y:0}];
-    
+    e.browState = 'raise';
     }else if(cycle(500,e,-8)||cycle(500,e,8)){
+    e.brows[0] = [{x:0,y:0},{x:0,y:0}];
+    e.brows[1] = [{x:0,y:0},{x:0,y:0}];
+    e.browState = 'default';
+    }else if(e.browState === 'angry attack'){
+    e.brows[0] = [{x:0,y:0},{x:0,y:0}];
+    e.brows[1] = [{x:0,y:0},{x:0,y:0}];
+    e.browState = 'default';
+    }else if(e.browState === 'default'){
     e.brows[0] = [{x:0,y:0},{x:0,y:0}];
     e.brows[1] = [{x:0,y:0},{x:0,y:0}];
     }
     },
     handR:function(){
-    noStroke();
-    fill(255, 0, 0,100);
-    //ellipse(0,0,15,15);
+    stroke(0,0,0);
+    strokeWeight(2);
+    fill(21, 207, 0);
+    ellipse(-5,0,20,10);
+    return 1;
     },
     handL:function(){
-    noStroke();
-    fill(255, 0, 0,100);
-    //ellipse(0,0,15,15);
+    stroke(0,0,0);
+    strokeWeight(2);
+    fill(21, 207, 0);
+    ellipse(-5,0,20,10);
+    return 1;
     },
     effects:function(x,y){
-    if(frameCount/10 === round(frameCount/10)){
-    var poof = new effect(x+15,y-10,random(2,7),choice(color(245, 10, 10),color(255, 111, 0)),random(0,255),random(2,5));
- var poof = new effect(x+15,y+10,random(2,7),choice(color(245, 10, 10),color(255, 111, 0)),random(0,255),random(2,5));
-    }
     },
     },
     health:1000,
-    speed:4,
+    speed:3.4,
     acceleration:0.2,
-    size:0.85,
-    weapons:['iron katana','iron dagger','heavy axe'],
-    powers:['dash','halt','gravity bomb','blink'],
+    size:1,
+    weapons:['iron katana','iron dagger','heavy axe','iron sword'],
+    powers:['froggy hop','halt','gravity bomb','blink'],
     },
     ];
 var p;
@@ -687,9 +816,14 @@ function diff(a, b) {
     return abs(a - b);
 }
 function stun(e,t){
-e.stun = true;
-if(e.stunTimer < t){
-e.stunTimer = t;
+
+if(e.buffs.stun < t||!e.buffs.stun){
+e.buffs.stun = t;
+}
+}
+function phaseOut(e,t){
+if(e.buffs.phaseOut < t ||!e.buffs.phaseOut){
+e.buffs.phaseOut = t;
 }
 }
 function basicProj(s){
@@ -1157,11 +1291,14 @@ poof.vy = random(-2,2);
     if(st.health > 0){
     for(var i = 0; i < st.enemies.length; i++){
     var q = st.enemies[i];
+    if(!q.buffs.phaseOut){
     if(dist(thst.x,thst.y,q.x,q.y)<200+(q.size*15)){
     var dir = atan2(thst.y-q.y,thst.x-q.x);
     var power = 10;
     q.vx = lerp(q.vx,cos(dir)*power,0.05);
     q.vy = lerp(q.vy,sin(dir)*power,0.05);
+    q.danger = true;
+    }
     }
     }
     }
@@ -1220,16 +1357,33 @@ poof.vy = random(-2,2);
     idealDist: Infinity,
     abilities: [],
     descript: 'Instantly jump in the direction you\'re facing',
+    bypassCondition: true,
+    condition:function(s,t){
+    if(s.danger){
+    return true;
+    }
+    },
     use:function(s){
     
     var num = 60;
     s.vx = cos(s.rot)*4;
     s.vy = sin(s.rot)*4;
+    
     for(var i = 0; i < num; i++){
+    pushMatrix();
+    
+    if(i/10 === round(i/10)){
+    
+    doPlayerGraphics(s,s.size);
+    
+    }
     s.x += s.vx;
     s.y += s.vy;
+    
     s.collisions();
+    popMatrix();
     }
+    
     
     for(var i = 0; i < 20; i++){
 var poof = new effect(s.x,s.y,random(5,15),choice(color(245, 202, 12),color(66, 38, 6)),random(0,255),random(2,5));
@@ -1268,6 +1422,58 @@ poof.vy = random(-2,2);
     noStroke();
     rotate(45-sin(frameCount)*10+i*2);
     fill(209, 185, 0,100);
+    rect(-35,-35,70,70,15);
+    fill(66, 66, 66,50);
+    rect(-35,-35,(c-w)*(70/c),(c-w)*(70/c),15);
+    }
+    }],
+    ['froggy hop',{
+    cooldown: 350,
+    noHold: true,
+    aiDist: Infinity,
+    idealDist: Infinity,
+    abilities: [],
+    descript: 'Jump in the direction you\'re facing, ignoring all damage you recieve during the hop\n\n"I\'m out"\n-Worty Frowlg 2023',
+    condition:function(s,t){
+    if(s.danger){
+    return true;
+    }
+    },
+    use:function(s){
+    s.vx = cos(s.rot)*10;
+    s.vy = sin(s.rot)*10;
+    s.browState = 'sad';
+    phaseOut(s,50);
+    },
+    released:function(s){
+    
+    },
+    symbol:function(s,c,n){
+    stroke(0, 0, 0);
+    if(s.powerSelect === n){
+    strokeWeight(8);
+    }else{
+    strokeWeight(5);
+    }
+    fill(227, 227, 227);
+    var r = 0;
+    if(s.powerSelect === n){
+    r = s.pCharge;
+    }
+    var w = s.pCooldown[n];
+    if(w > c){
+    w = c;
+    }
+    var i = random(-r,r)/2;
+    rotate(45+i);
+    rect(-35,-35,70,70,15);
+    rotate(-45+sin(frameCount)*10-i);
+    
+    worty(0,0,1,0,2);
+    
+    noStroke();
+    rotate(45-sin(frameCount)*10+i*2);
+    fill(54, 189, 0,100);
     rect(-35,-35,70,70,15);
     fill(66, 66, 66,50);
     rect(-35,-35,(c-w)*(70/c),(c-w)*(70/c),15);
@@ -1485,7 +1691,7 @@ var isInside = function(poly, n, p){
         return false; 
     } 
 
-    var extreme = Point(10000, p.y);
+    var extreme = Point(100000, p.y);
 
     var count = 0, i = 0; 
     do { 
@@ -1493,7 +1699,8 @@ var isInside = function(poly, n, p){
 
         if (doIntersect(poly[i], poly[next], p, extreme)){ 
             if (orientation(poly[i], p, poly[next])===0){ 
-                return onSegment(poly[i], p, poly[next]); 
+                //return onSegment(poly[i], p, poly[next]); 
+                count--;
             } 
 
             count++; 
@@ -1997,7 +2204,7 @@ this.selected = 0; this.attacked = false;
 this.cooldown = 1000; this.handMove = 'punch'; this.currentPath = 0; this.pCooldown = [1000,1000,1000,1000,1000,1000,1000,1000];
 this.color = color(245, 245, 245); this.name = 'random person';
 this.health = 10; this.acc = 0.1; this.weapons = [];
-this.use = weapons[0][1]; this.curHands = [{transX:0,transY:0},{transX:0,transY:0}]; this.powerNames = []; this.rand = random(0,10000);
+this.use = weapons[0][1]; this.curHands = [{transX:0,transY:0},{transX:0,transY:0}]; this.powerNames = []; this.rand = random(0,10000); this.buffs = {};
 this.sight = {
 x:width,
 y:height,
@@ -2005,7 +2212,6 @@ y:height,
 this.handMove = this.use.anim;
 this.sweeping = false; this.pAttacked = false;
 this.sweepRad = this.use.sweep;
-this.stun = false; this.stunTimer = 0;
 this.onSwingRot = false; this.newTargTimer = 0; this.newpTargTimer = 0;
 this.que = []; this.hitYet = [];this.enemies = [];
 this.hands = [{transX:0,transY:0},{transX:0,transY:0}];
@@ -2489,10 +2695,17 @@ e.curHands[0].transX = lerp(e.curHands[0].transX,e.hands[0].transX,0.3);
 e.curHands[0].transY = lerp(e.curHands[0].transY,e.hands[0].transY,0.3);
 translate(e.curHands[0].transX,e.curHands[0].transY);
 }
+if(e.looks.handL&&e.looks.handL()===1){
+
+}else{
 fill(e.looks.color);
 stroke(0, 0, 0);
 strokeWeight(2);
 ellipse(x,y,10,10);
+}
+fill(e.looks.color);
+stroke(0, 0, 0);
+strokeWeight(2);
 if(e.looks.handL){
 pushMatrix();
 translate(x,y);
@@ -2509,10 +2722,17 @@ e.curHands[1].transY = lerp(e.curHands[1].transY,e.hands[1].transY,0.3);
 
 translate(e.curHands[1].transX,e.curHands[1].transY);
 }
+if(e.looks.handR&&e.looks.handR()===1){
+
+}else{
 fill(e.looks.color);
 stroke(0, 0, 0);
 strokeWeight(2);
 ellipse(x,y,10,10);
+}
+fill(e.looks.color);
+stroke(0, 0, 0);
+strokeWeight(2);
 if(e.looks.handR){
 pushMatrix();
 translate(x,y);
@@ -2722,12 +2942,13 @@ this.pCharge = 0;
 this.powerSelect=n;
 };
 player.prototype.doPower = function(i){
+if(this.health>0){
 if(!i){
 i = this.powerSelect;
 }
 if(this.powers[i]){
 //println(this.didPowerYet);
-if(!this.stun && !this.noPower){
+if(!this.buffs.stun && !this.noPower){
    
 if(this.pCooldown[i] > this.powers[i].cooldown){
 //println(i+' , '+this.didPowerYet+' , '+frameCount);
@@ -2752,10 +2973,12 @@ this.pCooldown[i] = 0;
 }
 this.noPower = false;
 }
+}
 };
 player.prototype.hit = function(e,w,k){
     if(gameSet.noAttack<=0){
 this.hitYet.push(e);
+if(!e.buffs.phaseOut){
     for(var a = 0; a < w.abilities.length; a++){
     
     var stats = getAbilityStats(w.abilities[a]);
@@ -2774,9 +2997,11 @@ this.hitYet.push(e);
     dmgNotif.vy = random(-2.5);
     dmgNotif.rot = 0;
     dmgNotif.vRot = random(-1,1);
+}
     }
 };
 player.prototype.checkForHits = function(){
+this.trueAttacking = true;
 var angMod = 0;
 if(this.use.sweepMod){
 angMod = this.use.sweepMod;
@@ -2814,7 +3039,6 @@ for(var q = this.enemies.length - 1; q > -1; q--){
 }
 };
 function doPlayerGraphics(e,s){
-    
     if(e.looks.effects){
     e.looks.effects(e.x,e.y);
     }
@@ -2999,7 +3223,7 @@ this.tvy = constrain(this.tvy,-getSize(this.size/1.2),getSize(this.size/1.2));
     }
     translate(-this.x,-this.y);
     doPlayerGraphics(this,this.size);
-    
+    this.trueAttacking = false;
     // if(this.target){
     // line(this.x,this.y,this.x+cos(angle(this,this.target))*20,this.y+sin(angle(this,this.target))*20);
     // }
@@ -3029,7 +3253,21 @@ this.tvy = constrain(this.tvy,-getSize(this.size/1.2),getSize(this.size/1.2));
     }
     }
     }
-    if(this.stun){
+    if(this.buffs.phaseOut){
+    this.buffs.phaseOut--;
+    if(this.buffs.phaseOut <= 0){
+    this.buffs.phaseOut = false;
+    }
+    pushMatrix();
+    translate(this.x,this.y);
+    scale(this.size);
+    translate(-this.x,-this.y);
+    noStroke();
+    fill(0, 255, 9,128);
+    ellipse(this.x, this.y, 40, 40);
+    popMatrix();
+    }
+    if(this.buffs.stun){
     pushMatrix();
     translate(this.x,this.y);
     scale(this.size);
@@ -3131,11 +3369,11 @@ player.prototype.move = function(dirs){
 if(this.cooldown <= 1&&this.use.swingStill){
 dirs = [false,false,false,false];
 }
-if(this.stun){
+if(this.buffs.stun){
 dirs = [false,false,false,false];
-this.stunTimer--;
-if(this.stunTimer <= 0){
-this.stun = false;
+this.buffs.stun--;
+if(this.buffs.stun <= 0){
+this.buffs.stun = false;
 }
 }
         {
@@ -3291,7 +3529,8 @@ break;
 }
 };
 player.prototype.attack = function(){
-    if(!this.stun){
+    if(this.health>0){
+    if(!this.buffs.stun){
     this.attacked = true;
     this.noPower = true;
 for(var i = 0; i < weapons.length; i++){
@@ -3319,6 +3558,7 @@ for(var i = 0; i < weapons.length; i++){
     }
     }
     
+}
 }
 }
 };
@@ -3624,7 +3864,54 @@ var d2 = d(this,{x:e.x+e.tvx*(d1/u.projSpeed),y:e.y+e.tvy*(d1/u.projSpeed)});
 // make angle according to movement and will be dist
 return angle(this,{x:e.x+e.tvx*(d2/u.projSpeed-e.tvx),y:e.y+e.tvy*(d2/u.projSpeed-e.tvy)});
 };
+player.prototype.rayCast = function(incr,a,cap){
+var dir = (360/cap)*a + ((360/cap)/2);
+    var tryLength = incr;
+    while(clearPath(this.x,this.y,this.x+cos(dir)*tryLength,this.y+sin(dir)*tryLength) && tryLength < 300){
+        tryLength += incr;
+    }
+};
+player.prototype.getOptimalDirection = function(incr){
+    if(!this.curBestDir){
+this.curBestDir = 0;
+}
+if(!this.curDir){
+this.curDir = 0;
+}
+    var rad = 160;
+    var cap = 8;
+    var inc = incr;
+    var best = 0;
+    var bests = [];
+    var bestDir = 0;
+for(var i = 0; i < cap; i++){
+    var dir = (rad/cap)*i +this.curDir-rad/2;
+    var tryLength = inc;
+    while(clearPath(this.x,this.y,this.x+cos(dir)*tryLength,this.y+sin(dir)*tryLength) && tryLength < 300){
+        tryLength += inc;
+    }
+    //strokeWeight(10);
+    //stroke(0, 0, 0);
+    //line(this.x,this.y,this.x+cos(dir)*tryLength,this.y+sin(dir)*tryLength);
+    if(tryLength > best){
+        
+        best = tryLength;
+        bests = [];
+        bests.push(dir);
+        
+    }else if(tryLength === best){
+        bests.push(dir);
+    }
+}
+
+    var go = bests[floor(random(0,bests.length))];
+    //strokeWeight(10);
+    //stroke(255, 0, 0);
+    //line(this.x,this.y,this.x+cos(go)*best,this.y+sin(go)*best);
+    return go;
+};
 player.prototype.doAi = function(shouldntSwitch){
+
 this.newTargTimer += 1;
 this.newpTargTimer += 1;
 this.targDirAlt = false;
@@ -3640,7 +3927,7 @@ if(!this.pcUsed && this.pcUsed !== 0){
 if(round(random(0,240)) === 4){
 this.switchPowerI(floor(random(0,this.powers.length)));
 //this.switchPowerI(0);
-while(this.powers[this.powerSelect].condition){
+while(this.powers[this.powerSelect].condition && !this.powers[this.powerSelect].bypassCondition){
 this.switchPowerI(floor(random(0,this.powers.length)));
 }
 }
@@ -3687,55 +3974,91 @@ this.newTargTimer = 0;
 }
 }else{
 // if the target is not a player
-if(this.path){
-// if has a path, follow path
 
-// for(var i = 0; i < this.path.length; i++){
-// strokeWeight(10);
-// stroke(255, 0, 0);
-// line(this.path[i][0].x,this.path[i][0].y,this.path[i][1].x,this.path[i][1].y);
+
+// pathfinding was too hard and too laggy
+// if(this.path){
+// // if has a path, follow path
+
+// // for(var i = 0; i < this.path.length; i++){
+// // strokeWeight(10);
+// // stroke(255, 0, 0);
+// // line(this.path[i][0].x,this.path[i][0].y,this.path[i][1].x,this.path[i][1].y);
+// // }
+
+// this.targDir = angle(this,this.path[this.currentPath][1]);
+// //println(d(this,this.path[this.path.length-1][1]));
+// if(d(this,this.path[this.currentPath][1])<getSize(this.size)*4){
+    
+// if(this.currentPath < this.path.length-1){
+// this.currentPath++;
+// }
 // }
 
-this.targDir = angle(this,this.path[this.currentPath][1]);
-//println(d(this,this.path[this.path.length-1][1]));
-if(d(this,this.path[this.currentPath][1])<getSize(this.size)*2){
-    
-if(this.currentPath < this.path.length-1){
-this.currentPath++;
-}
-}
+// if(d(this,this.path[this.path.length-1][1])<=getSize(this.size)*4||round(random(0,900))===10){
+// this.path = false;
+// this.currentPath = 0;
+// this.target = false;
+// }
+// if(this.colCount > 100){
+// this.path = false;
+// //println(frameCount);
+// this.colCount = 0;
 
-if(d(this,this.path[this.path.length-1][1])<=getSize(this.size)*2||round(random(0,900))===10){
-this.path = false;
-this.currentPath = 0;
-this.target = false;
-}
-if(this.colCount > 100){
-this.path = false;
-//println(frameCount);
-this.colCount = 0;
+// this.currentPath = 0;
+// this.target = false;
+// this.newTargTimer = 0;
+// }
+// }else{
+// // if no path, make a path
 
-this.currentPath = 0;
-this.target = false;
-this.newTargTimer = 0;
+// this.path = this.getPath(this.target);
+// }
+if(!this.curBestDir){
+this.curBestDir = 0;
+}
+if(!this.curDir){
+this.curDir = 0;
+}
+if(round(random(0,15))===1){
+var inc = 10;
+var tDir = this.getOptimalDirection(inc);
+this.curBestDir = tDir;
+}
+// if(this.curBestDir > this.curDir){
+ 
+// }
+// if(this.curBestDir < this.curDir){
+//  this.curDir -= 1;
+// }
+this.curDir = lerp(this.curDir,this.curBestDir,0.05);
+while(space(this.curDir,this.curBestDir)>180){
+
+    if(this.curDir > this.curBestDir){
+    this.curDir -= 360;
+    }else if(this.curDir < this.curBestDir){
+    this.curDir += 360;
+    }
+    }
+
+this.target = {x:this.x+cos(this.curDir),y:this.y+sin(this.curDir)};
+this.targDir = angle(this,this.target);
+
+//println(dir);
 }
 }else{
-// if no path, make a path
-
-this.path = this.getPath(this.target);
-}
-
-}
-}else{
-// if no target, make a target somewhere random on the map
-if(this.tCount > 3 || !this.target){
-this.tCount = 0;
-this.target = {x:random(this.x-1000,this.x+1000),y:random(this.y-1000,this.y+1000)};
-this.pTarget = this.target;
-}else{
-this.target = this.pTarget;
-}
-
+// if(this.tCount > 3 || !this.target){
+// this.tCount = 0;
+// this.target = {x:random(this.x-1000,this.x+1000),y:random(this.y-1000,this.y+1000)};
+// this.pTarget = this.target;
+// }else{
+// this.target = this.pTarget;
+// }
+var inc = 10;
+var dir = this.getOptimalDirection(inc);
+this.target = {x:this.x+cos(dir)*inc,y:this.y+sin(dir)*inc};
+this.curBestDir = dir;
+this.curDir = dir;
 //println(this.target.x);
 }
 
@@ -3853,7 +4176,7 @@ this.trot += 70;
 }
 }
 }
-
+this.danger = false;
 for(var i = 0; i < projs.length; i++){
 // for each projectile
 if(round(random(0,5)) === 2 ||this.contAway[projs[i].id]){
@@ -3862,6 +4185,7 @@ var e = projs[i];
 if(this.canSee(e)){
 var d1 = angle(e,this);
 if(angleDiff(d1,e.angle)<50){
+this.danger = true;
 this.contAway[projs[i].id] = true;
 this.targDirAlt = true;
 if(d1>e.angle){
@@ -4525,7 +4849,7 @@ w.preset('polygon',1326.766512692526,168.3632676035223,6,74);
 var w = new wall('polygon',[],{
 stroke:color(0, 0, 0),
 strokeWeight:5,
-fill:color(0, 0, 0),
+fill:color(115, 115, 115),
 });
 w.preset('circle',1364.7949020515084,691.9849364695114,6,34);
 //15
@@ -7908,10 +8232,10 @@ randomSeed(trueRandom);
 textFont(monospace);
 frameRate(60);
 
-// maps[0].background();
-// maps[0].load();
+// maps[2].background();
+// maps[2].load();
 // startLoading();
-// gameSet.map = 0;
+// gameSet.map = 2;
 
 var mousep = false;
 var loadbreak = false;
@@ -8097,6 +8421,16 @@ p.dirs[3] = true;
 p.stargDir = atan2((mouseY-trans.y)-p.y,(mouseX-trans.x)-p.x);
 p.trot = p.stargDir;
 p.move(p.dirs);
+// p.path = p.getPath({x:getActualMouse().x,y:getActualMouse().y});
+// ellipse(getActualMouse().x,getActualMouse().y,100,100);
+// if(p.path){
+// for(var i = 0; i < p.path.length; i++){
+// strokeWeight(10);
+// stroke(255, 0, 0);
+// line(p.path[i][0].x,p.path[i][0].y,p.path[i][1].x,p.path[i][1].y);
+// }
+// }
+
 //println(p.rot);
 }
 //drawWalls();
@@ -8503,13 +8837,12 @@ clicked = false;
 break;
 case 'select':
 {
-
-background(38, 38, 38);
 if(gameSet.curbg !== maps[gameSet.map].name){
     //println(maps[gameSet.map].name);
     maps[gameSet.map].background();
     gameSet.curbg = maps[gameSet.map].name;
 }
+background(38, 38, 38);
 image(bg,width/2-300,height/2-300);
 if(!cam.x){
 cam = {x:0,y:0};
@@ -9314,8 +9647,14 @@ if(scene !== 'game' && scene !== 'loading'){
 if(scene !== 'death' && scene !== 'pause'){
 players = [];
 p.health = p.maxHealth;
-p.stun = false;
-p.stunTimer = 0;
+p.buffs.stun = false;
+p.buffs.phaseOut = false;
+walls = [];
+chunks = [];
+if(scene !== 'demo'){
+p.vx = 0;
+p.vy = 0;
+}
 }
 noStroke();
 fill(0,0,0,logoCount);
@@ -9331,6 +9670,8 @@ manageKeys();
 
 
 var r = random();
+}
+
 			</script>
 	
 	<script src="https://cdn.jsdelivr.net/gh/vExcess/library_files@main/runPJS_onKA.js"></script>
